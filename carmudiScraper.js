@@ -47,8 +47,7 @@ const scraperObject = {
                 })
                 return data
             });
-            scrapedData.push(data);
-            return console.log(scrapedData)
+            scrapedData = [...scrapedData, ...data];
             // When all the data on this page is done, click the next button and start the scraping of the next page
             // You are going to check if this button exist first, so you know if there really is a next page.
             let nextButtonExist = false, current_page;

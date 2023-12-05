@@ -39,6 +39,12 @@ const scraperObject = {
                 let image = await newPage.$eval('#img1', item => {
                     return item.src
                 });
+                let contact = await newPage.$eval('.contact-txt', item => {
+                    return {
+                        phone: item.querySelector('.cphone').textContent.trim(),
+                        address: item.textContent.trim()
+                    }
+                });
                 let description = await newPage.$eval('.des_txt', item => {
                     return item.textContent.replaceAll('\t', '').replaceAll('\n', '').trim();
                 });
@@ -49,15 +55,15 @@ const scraperObject = {
                     }
                     return attributes
                 })
-                await page.close();
                 let data = {
                     name: name.split('-')[0],
                     price: name.split('-')[1],
                     image,
                     description,
                     link,
-                    attributes,
-                    address
+                    // attributes,
+                    phone: contact.phone,
+                    address: contact.address
                 }
                 resolve(data);
                 await newPage.close();
@@ -69,7 +75,6 @@ const scraperObject = {
             // console.log(currentPageData);
             // await delay(5000); // set delay
             // }
-            return console.log(scrapedData)
             // When all the data on this page is done, click the next button and start the scraping of the next page
             // You are going to check if this button exist first, so you know if there really is a next page.
             let nextButtonExist = false, current_page;
@@ -81,12 +86,12 @@ const scraperObject = {
             catch (err) {
                 nextButtonExist = false;
             }
-            if (nextButtonExist && current_page <= PAGE_END) {
-                await page.click('.paging .next > a');
-                return scrapeCurrentPage(); // Call this function recursively
-            } else {
-                writeJson(`page_${START_PAGE}_${PAGE_END}.json`, scrapedData)
-            }
+            // if (nextButtonExist && current_page <= PAGE_END) {
+            //     await page.click('.paging .next > a');
+            //     return scrapeCurrentPage(); // Call this function recursively
+            // } else {
+            //     writeJson(`page_${START_PAGE}_${PAGE_END}.json`, scrapedData)
+            // }
             await page.close();
             return scrapedData;
         }

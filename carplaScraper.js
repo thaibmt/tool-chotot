@@ -22,7 +22,7 @@ const scraperObject = {
         }
         async function scrapeCurrentPage() {
             // Wait for the required DOM to be rendered
-            await page.waitForSelector('.p-component');
+            await page.waitForSelector('.product-card');
             // Get the link to all the required books
             let data = await page.$$eval('div.product-card', products => {
                 let data = [], item = {}
@@ -42,8 +42,7 @@ const scraperObject = {
                 })
                 return data
             });
-            scrapedData.push(data);
-            return console.log(scrapedData)
+            scrapedData = [...scrapedData, ...data];
             // When all the data on this page is done, click the next button and start the scraping of the next page
             // You are going to check if this button exist first, so you know if there really is a next page.
             let nextButtonExist = false, current_page;

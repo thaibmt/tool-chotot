@@ -22,7 +22,7 @@ const scraperObject = {
         }
         async function scrapeCurrentPage() {
             // Wait for the required DOM to be rendered
-            await page.waitForSelector('.IntersectBox');
+            await page.waitForSelector('.AdItem_wrapperAdItem__S6qPH');
             // Get the link to all the required books
             let urls = await page.$$eval('li.AdItem_wrapperAdItem__S6qPH', links => {
                 // Extract the links from the data
@@ -60,7 +60,7 @@ const scraperObject = {
                     price: description['price'],
                     image,
                     link,
-                    attributes,
+                    // attributes,
                     address
                 }
                 resolve(data);
@@ -73,7 +73,6 @@ const scraperObject = {
             // console.log(currentPageData);
             // await delay(5000); // set delay
             // }
-            return console.log(scrapedData)
             // When all the data on this page is done, click the next button and start the scraping of the next page
             // You are going to check if this button exist first, so you know if there really is a next page.
             let nextButtonExist = false, current_page;
