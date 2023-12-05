@@ -33,41 +33,35 @@ const scraperObject = {
             let pagePromise = (link) => new Promise(async (resolve, reject) => {
                 let newPage = await browser.newPage();
                 await newPage.goto(link);
-                let image = await newPage.$$eval('#adview-carousel-placeholder', items => {
-                    return items[0].querySelector('img').src
-                    // Extract the links from the data
-                    let allData = {}
-                    for (let item of items) {
-                        allData = { ...allData, [span.querySelector('span').textContent]: item.querySelector('strong').textContent }
-                    }
-                    return allData;
+                let image = await newPage.$eval('#adview-carousel-placeholder', item => {
+                    return item.querySelector('img').src
                 });
-                let description = await newPage.$$eval('.DetailViewAB_adviewItem__20YCA', items => {
+                let address = await newPage.$eval('span.fz13', item => {
+                    return item.textContent
+                });
+                let description = await newPage.$eval('.DetailViewAB_adviewItem__20YCA', item => {
                     // Extract the links from the data
                     let description = {
-                        name: items[0].querySelector('h1').textContent,
-                        price: items[0].querySelector('span[itemprop="price"]').textContent
+                        name: item.querySelector('h1').textContent.trim(),
+                        price: item.querySelector('span[itemprop="price"]').textContent.trim(),
                     }
                     return description;
                 });
-                let attributes = await newPage.$$eval('.AdParam_adParamContainerVeh__Vz4Zt', items => {
+                let attributes = await newPage.$eval('.AdParam_adParamContainerVeh__Vz4Zt', item => {
                     let attributes = []
-                    for (let item of items[0].querySelectorAll('.media-body')) {
-                        attributes.push(item.querySelector('span').textContent)
+                    for (let el of item.querySelectorAll('.media-body')) {
+                        attributes.push(el.querySelector('span').textContent.trim())
                     }
-
                     return attributes
                 })
-                const button = await newPage.$$eval(".ChatTemplate_templateItem__7p1c6", items => {
-                    return [items[0]]
-                });
-                return console.log(button)
+
                 let data = {
                     name: description['name'],
                     price: description['price'],
-                    image: image,
+                    image,
                     link,
-                    attributes: attributes
+                    attributes,
+                    address
                 }
                 resolve(data);
                 await newPage.close();
