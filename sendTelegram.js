@@ -5,14 +5,16 @@ const chatId = '@tool_chotot';
 
 async function sendMessage(data) {
     const apiUrl = `https://api.telegram.org/bot${botToken}/sendPhoto`;
-
-    // Thay thế 'text' và 'photo' bằng nội dung và hình ảnh bạn muốn chia sẻ
-    // Information to be included in the caption
-    const caption =
-        `<b>🆕${data.name}</b>\n
-    <b>✅Giá:</b> ${data.price}\n
-    <b>✅Địa chỉ:</b>${data.address}\n\n
-    <a href="${data.link}">🌍Xem chi tiết</a>`;
+    let caption = `<b>🆕${data.name}</b>\n\n`;
+    for (attribute of data.attributes) {
+        let item = attribute.split(':');
+        caption += item.length > 1 ? `\t<b>✅${item[0]}:</b> ${item[1]}\n` : `\t<b>✅${item[0]}:</b>\n`;
+    }
+    caption += `<b>✅Giá:</b> ${data.price}\n`;
+    if (data.address) {
+        caption += `<b>🕹️Địa chỉ:</b>${data.address}\n\n`;
+    }
+    caption += `<a href="${data.link}">🌍Xem chi tiết</a>`;
     const payload = {
         chat_id: chatId,
         photo: data.image,

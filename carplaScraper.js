@@ -34,7 +34,7 @@ const scraperObject = {
                         name: el.querySelector('h4').textContent,
                         link: el.querySelector('a.product-item-content')?.href,
                         price: el.querySelector('span.price').textContent.replaceAll('\n', '').trim(),
-                        attributes: attributes[0],
+                        attributes: attributes,
                         image: el.querySelector('.product-item-carousel img').src,
                         address: ''
                     }

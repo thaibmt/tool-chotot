@@ -15,18 +15,34 @@ async function scrapeAll(browserInstance) {
     let browser, data = [];
     try {
         browser = await browserInstance;
-        let chotot = await choTotScraper.scraper(browser);
+        for (let url of [
+            'https://xe.chotot.com/mua-ban-oto-tp-ho-chi-minh',
+            'https://xe.chotot.com/mua-ban-oto-dong-nai',
+            'https://xe.chotot.com/mua-ban-oto-binh-thuan',
+            'https://xe.chotot.com/mua-ban-oto-ba-ria-vung-tau',
+        ]) {
+            console.log(url)
+            try {
+                choTotScraper.url = url + '?page=1';
+                let result = await choTotScraper.scraper(browser, url);
+                data = [...result]
+            } catch (err) {
+                console.log(err)
+            }
+
+        }
+        // let chotot = await choTotScraper.scraper(browser,);
         // let carpla = await carplaScraper.scraper(browser);
         // let carmudi = await carmudiScraper.scraper(browser);
         // let bonbanh = await bonBanhScraper.scraper(browser);
-        data = [
-            ...chotot,
-            // ...carpla,
-            // ...carmudi,
-            // ...bonbanh
-        ];
+        // data = [
+        //     ...chotot,
+        //     // ...carpla,
+        //     // ...carmudi,
+        //     // ...bonbanh
+        // ];
         shuffleArray(data);
-        console.log(data[0])
+        console.log(data)
         sendMessage(data[0])
 
     }
