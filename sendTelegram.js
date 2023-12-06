@@ -32,7 +32,7 @@ async function sendMessage(data) {
         });
 
         const result = await response.json();
-        console.log(result);
+        return true;
     } catch (error) {
         console.error('Error sending message:', error);
     }

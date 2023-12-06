@@ -5,12 +5,16 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "electron ."
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "form-data": "^4.0.0",
     "puppeteer": "^21.4.1"
+  },
+  "devDependencies": {
+    "electron": "^28.0.0",
+    "electron-packager": "^17.1.2"
   }
 }
