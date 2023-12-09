@@ -9,8 +9,9 @@ const main = function () {
     // Pass the browser instance to the scraper controller
     scraperController(browserInstance)
 }
-cron.schedule('*/5 * * * *', () => {
-    console.log('Cron job is running every 10 minutes.');
-    main();
-    // Thêm các thao tác bạn muốn thực hiện sau mỗi 10 phút ở đây
-});
+main()
+// cron.schedule('*/5 * * * *', () => {
+//     console.log('Cron job is running every 10 minutes.');
+//     main();
+//     // Thêm các thao tác bạn muốn thực hiện sau mỗi 10 phút ở đây
+// });

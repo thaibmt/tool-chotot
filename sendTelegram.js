@@ -2,6 +2,8 @@ const fetch = require('node-fetch');
 
 const botToken = '5244823807:AAFkXn5tvh4g_LP5Gj9xSaRGfhJQMAtfDD8';
 const chatId = '@tool_chotot';
+// const botToken = '1263823369:AAEj165AoVRSAhOc6i8lgecv87FulkEy74k';
+// const chatId = '@choxegiatot';
 
 async function sendMessage(data) {
     const apiUrl = `https://api.telegram.org/bot${botToken}/sendPhoto`;

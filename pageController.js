@@ -15,6 +15,7 @@ async function scrapeAll(browserInstance) {
     let browser, data = [];
     try {
         browser = await browserInstance;
+        // 1. chotot
         for (let item of [
             { district: 'hcm', url: 'https://xe.chotot.com/mua-ban-oto-tp-ho-chi-minh?price=15000000-200000000&page=1' },
             { district: 'dongnai', url: 'https://xe.chotot.com/mua-ban-oto-dong-nai?price=15000000-200000000&page=1' },
@@ -24,6 +25,22 @@ async function scrapeAll(browserInstance) {
             try {
                 choTotScraper.url = item.url;
                 choTotScraper.district = item.district;
+                let result = await choTotScraper.scraper(browser, item.url);
+                data = [...data, ...result]
+            } catch (err) {
+                console.log(err)
+            }
+        }
+        // 2. bon banh
+        for (let item of [
+            { district: 'hcm', url: 'https://bonbanh.com/tp-hcm/oto-gia-duoi-200-trieu/page,1' },
+            { district: 'dongnai', url: 'https://bonbanh.com/dong-nai/oto-gia-duoi-200-trieu/page,1' },
+            { district: 'binhthuan', url: 'https://bonbanh.com/binh-thuan/oto-gia-duoi-200-trieu/page,1' },
+            { district: 'vungtau', url: 'https://bonbanh.com/ba-ria-vung-tau/oto-gia-duoi-200-trieu/page,1' },
+        ]) {
+            try {
+                bonBanhScraper.url = item.url;
+                bonBanhScraper.district = item.district;
                 let result = await choTotScraper.scraper(browser, item.url);
                 data = [...data, ...result]
             } catch (err) {

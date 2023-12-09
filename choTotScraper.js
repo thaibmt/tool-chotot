@@ -101,18 +101,22 @@ const scraperObject = {
                 await newPage.close();
             });
 
-            for (let link of urls) {
-                if (scapedUrl.includes(link)) {
-                    start_page = PAGE_END + 1;
-                    break;
-                }
-                let currentPageData = await pagePromise(link);
-                scrapedData.push(currentPageData);
-                // console.log(scrapedData)
-                urlData.push(link)
-            }
+            // for (let link of urls) {
+            //     if (scapedUrl.includes(link)) {
+            //         start_page = PAGE_END + 1;
+            //         break;
+            //     }
+            //     let currentPageData = await pagePromise(link);
+            //     scrapedData.push(currentPageData);
+            //     // console.log(scrapedData)
+            //     urlData.push(link)
+            // }
+            currentPageData = await pagePromise(urls[0]);
+            scrapedData.push(currentPageData);
+            // console.log(scrapedData)
+            urlData.push(urls[0])
 
-            if (start_page++ <= PAGE_END) {
+            if (false) {
                 scraperObject.url = scraperObject.url.replace(`&page=${start_page - 1}`, `&page=${start_page}`)
                 await page.goto(scraperObject.url, { waitUntil: "networkidle2" });
                 return scrapeCurrentPage(); // Call this function recursively
