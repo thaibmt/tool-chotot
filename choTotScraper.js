@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const PAGE_END = 1;
+const PAGE_END = 2;
 let start_page = 1;
 function getScapedLink(filePath) {
     try {
@@ -25,11 +25,6 @@ const scraperObject = {
         let page = await browser.newPage();
         await page.goto(this.url, { waitUntil: "networkidle2" });
         let scrapedData = [], urlData = [], scapedUrl = getScapedLink(`data/chotot-${this.district}.json`);
-        function delay(time) {
-            return new Promise(function (resolve) {
-                setTimeout(resolve, time)
-            });
-        }
         function saveToJsonFile(fileName, data) {
             // Đường dẫn đến thư mục "data"
             const dataFolderPath = path.join(__dirname, 'data');
@@ -101,27 +96,23 @@ const scraperObject = {
                 await newPage.close();
             });
 
-            // for (let link of urls) {
-            //     if (scapedUrl.includes(link)) {
-            //         start_page = PAGE_END + 1;
-            //         break;
-            //     }
-            //     let currentPageData = await pagePromise(link);
-            //     scrapedData.push(currentPageData);
-            //     // console.log(scrapedData)
-            //     urlData.push(link)
-            // }
-            currentPageData = await pagePromise(urls[0]);
-            scrapedData.push(currentPageData);
-            // console.log(scrapedData)
-            urlData.push(urls[0])
-
-            if (false) {
+            for (let link of urls) {
+                if (scapedUrl.includes(link)) {
+                    start_page = PAGE_END + 1;
+                    break;
+                }
+                let currentPageData = await pagePromise(link);
+                scrapedData.push(currentPageData);
+                urlData.push(link)
+            }
+            if (start_page < PAGE_END) {
                 scraperObject.url = scraperObject.url.replace(`&page=${start_page - 1}`, `&page=${start_page}`)
                 await page.goto(scraperObject.url, { waitUntil: "networkidle2" });
                 return scrapeCurrentPage(); // Call this function recursively
             } else {
-                saveToJsonFile(`chotot-${scraperObject.district}.json`, urlData)
+                if (urlData.length) {
+                    saveToJsonFile(`chotot-${scraperObject.district}.json`, urlData)
+                }
             }
             await page.close();
             return scrapedData;

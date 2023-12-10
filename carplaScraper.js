@@ -1,4 +1,5 @@
 const fs = require('fs');
+const path = require('path');
 const START_PAGE = '', PAGE_END = 2;
 const scraperObject = {
     url: 'https://carpla.vn/mua-xe' + START_PAGE,
