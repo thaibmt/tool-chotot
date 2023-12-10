@@ -14,7 +14,7 @@ console.log('Starting App ... ')
 let currentTimeInVietnam = moment().format('HH:mm:ss DD/MM/YYYY');
 console.log('Ứng dụng được chạy lúc:' + currentTimeInVietnam);
 main();
-cron.schedule('* * * * *', () => {
+cron.schedule('*/30 * * * *', () => {
     // Lấy thời gian hiện tại theo múi giờ Việt Nam
     currentTimeInVietnam = moment().format('HH:mm:ss DD/MM/YYYY');
     console.log('Ứng dụng được chạy lúc:' + currentTimeInVietnam);

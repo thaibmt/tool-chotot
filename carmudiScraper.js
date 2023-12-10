@@ -85,7 +85,7 @@ const scraperObject = {
                 urlData.push(item.link)
             }
             scrapedData.push(temp);
-            if (start_page < PAGE_END) {
+            if (start_page++ < PAGE_END) {
                 scraperObject.url = scraperObject.url.replace(`&page=${start_page - 1}`, `&page=${start_page}`)
                 await page.goto(scraperObject.url, { waitUntil: "networkidle2" });
                 return scrapeCurrentPage(); // Call this function recursively
