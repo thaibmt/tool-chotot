@@ -94,7 +94,7 @@ const scraperObject = {
                     image,
                     description,
                     link,
-                    // attributes,
+                    attributes,
                     phone: contact.phone,
                     address: contact.address
                 }
@@ -124,6 +124,7 @@ const scraperObject = {
                 if (urlData.length) {
                     saveToJsonFile(`bonbanh-${scraperObject.district}.json`, urlData)
                 }
+                start_page = 1;
             }
             await page.close();
             return scrapedData;

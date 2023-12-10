@@ -93,6 +93,7 @@ const scraperObject = {
                 if (urlData.length) {
                     saveToJsonFile(`carmudi-${scraperObject.district}.json`, urlData)
                 }
+                start_page = 1;
             }
             await page.close();
             return scrapedData;
