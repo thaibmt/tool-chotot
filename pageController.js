@@ -27,7 +27,6 @@ async function scrapeAll(browserInstance) {
                 choTotScraper.district = item.district;
                 let result = await choTotScraper.scraper(browser, item.url);
                 if (result.length > 0) {
-                    console.log({ result })
                     for (let car of result) {
                         await sendMessage(car)
                     }
@@ -48,7 +47,6 @@ async function scrapeAll(browserInstance) {
                 carmudiScraper.district = item.district;
                 let result = await carmudiScraper.scraper(browser, item.url);
                 if (result.length > 0) {
-                    console.log({ result })
                     for (let car of result) {
                         await sendMessage(car)
                     }
@@ -72,7 +70,6 @@ async function scrapeAll(browserInstance) {
                 bonBanhScraper.district = item.district;
                 let result = await bonBanhScraper.scraper(browser, item.url);
                 if (result.length > 0) {
-                    console.log({ result })
                     for (let car of result) {
                         await sendMessage(car)
                     }
