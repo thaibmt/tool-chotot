@@ -75,7 +75,6 @@ const scraperObject = {
                 return data
             });
             let temp = [];
-            console.log({ data })
             for (let item of data) {
                 if (scapedUrl.includes(item.link)) {
                     start_page = PAGE_END + 1;
@@ -84,7 +83,7 @@ const scraperObject = {
                 temp.push(item);
                 urlData.push(item.link)
             }
-            scrapedData.push(temp);
+            scrapedData = [...scrapedData, ...temp];
             if (start_page++ < PAGE_END) {
                 scraperObject.url = scraperObject.url.replace(`&page=${start_page - 1}`, `&page=${start_page}`)
                 await page.goto(scraperObject.url, { waitUntil: "networkidle2" });

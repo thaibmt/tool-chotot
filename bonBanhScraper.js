@@ -73,9 +73,23 @@ const scraperObject = {
                     reject(error)
                 }
                 let contact = await newPage.$eval('.contact-txt', item => {
+                    const cphone = item.querySelector('span.cphone');
+                    const child = cphone.querySelector('script');
+                    if (child) {
+                        cphone.removeChild(child)
+                    }
+                    // Lấy văn bản từ phần tử
+                    let textContent = item.textContent;
+
+                    // Áp dụng regex để trích xuất địa chỉ
+                    let regex = /Địa chỉ:\s*([\s\S]*?)\s*(?:Website|$)/;
+                    let match = regex.exec(textContent);
+
+                    // Lấy địa chỉ từ kết quả trích xuất
+                    let address = match && match[1].trim();
                     return {
-                        phone: item.querySelector('.cphone').textContent.trim(),
-                        address: item.textContent.trim()
+                        phone: cphone.textContent.trim(),
+                        address
                     }
                 });
                 let description = await newPage.$eval('.des_txt', item => {
@@ -94,8 +108,8 @@ const scraperObject = {
                     image,
                     description,
                     link,
-                    attributes,
-                    phone: contact.phone,
+                    attributes: [],
+                    // phone: contact.phone,
                     address: contact.address
                 }
                 resolve(data);
